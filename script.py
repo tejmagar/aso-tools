@@ -28,15 +28,7 @@ class RankCheckerFunc(AbstractFunc):
         return 'Rank Checker'
 
     @staticmethod
-    def exec() -> Any:
-        """ Shows application position. """
-
-        search_query = input('Enter search query: ')
-        target_app_id = input('Your app package name: ')
-        print('Enter country code. For example: us')
-
-        country = input('Country code: ')
-
+    def check_rank(target_app_id: str, search_query: str, country: str):
         result: dict = search(
             query=search_query,
             lang="en",
@@ -55,6 +47,22 @@ class RankCheckerFunc(AbstractFunc):
                 return
 
         print(f'Not ranked in {country} in top 30')
+
+    @staticmethod
+    def exec() -> Any:
+        """ Shows application position. """
+
+        search_query = input('Enter search query: ')
+        target_app_id = input('Your app package name: ')
+        print('Enter country code. For example: us')
+        print('Or use comma to add multiples')
+
+        countries = input('Country code: ')
+        countries = countries.replace(' ', '')
+        countries = countries.split(',')
+
+        for country in countries:
+            RankCheckerFunc.check_rank(target_app_id=target_app_id, search_query=search_query, country=country)
 
 
 class AppDetailsFunc(AbstractFunc):
